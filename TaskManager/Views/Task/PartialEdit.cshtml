@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<Comment> CommentList = ViewData["CommentList"] as IEnumerable<Comment>;
+}
+
+<body>
+
+    <table style="width:1135px;" border="1">
+        <tr>
+            <td style="width:700px;">
+               
+                @RenderBody()
+            </td>
+
+            <td>
+            @*@Html.Partial("/Views/Home/Comment.cshtml", sidebarComment)*@
+                @Html.Partial("/Views/Task/Comment.cshtml",CommentList)
+            </td>
+        </tr>
+    </table>
+</body>
+
+

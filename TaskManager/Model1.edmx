@@ -1,0 +1,766 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TaskManagerDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" />
+          <Property Name="CommentContent" Type="nchar" MaxLength="100" />
+          <Property Name="CommentDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProjectKey" Type="nchar" MaxLength="10" />
+          <Property Name="ProjectManager" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAdmin">
+          <Key>
+            <PropertyRef Name="ManagerID" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ManagerID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="ProjectName" Type="int" Nullable="false" />
+          <Property Name="TaskType" Type="int" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="100" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="SDate" Type="date" Nullable="false" />
+          <Property Name="EDate" Type="date" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Score" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="100" />
+          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manager" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Tag" Type="nchar" MaxLength="20" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="DDate" Type="date" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="CompletedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="TaskPriority">
+          <Key>
+            <PropertyRef Name="PriorityID" />
+          </Key>
+          <Property Name="PriorityName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="PriorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeName" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="TypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comment_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_TUser">
+          <End Role="TUser" Type="Self.TUser" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_TAdmin">
+          <End Role="TAdmin" Type="Self.TAdmin" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAdmin">
+              <PropertyRef Name="ManagerID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ProjectManager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Admin">
+          <End Role="TAdmin" Type="Self.TAdmin" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAdmin">
+              <PropertyRef Name="ManagerID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ProjectName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskPriority">
+          <End Role="TaskPriority" Type="Self.TaskPriority" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskPriority">
+              <PropertyRef Name="PriorityID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskType">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TaskType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TUser">
+          <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Sp_AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_GetTask" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="Sp_GetTaskforManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_ListTask" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Sp_Personnel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_Priority" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <EntityContainer Name="TaskManagerDbModelStoreContainer">
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAdmin" EntityType="Self.TAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskPriority" EntityType="Self.TaskPriority" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUser" EntityType="Self.TUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comment_Task" Association="Self.FK_Comment_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_TUser" Association="Self.FK_Comment_TUser">
+            <End Role="TUser" EntitySet="TUser" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_TAdmin" Association="Self.FK_Project_TAdmin">
+            <End Role="TAdmin" EntitySet="TAdmin" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Admin" Association="Self.FK_Task_Admin">
+            <End Role="TAdmin" EntitySet="TAdmin" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Project" Association="Self.FK_Task_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskPriority" Association="Self.FK_Task_TaskPriority">
+            <End Role="TaskPriority" EntitySet="TaskPriority" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskType" Association="Self.FK_Task_TaskType">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TUser" Association="Self.FK_Task_TUser">
+            <End Role="TUser" EntitySet="TUser" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TaskManagerDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="ProjectName" Type="Int32" Nullable="false" />
+          <Property Name="TaskType" Type="Int32" Nullable="false" />
+          <Property Name="Summary" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="SDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manager" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="TaskPriority" Relationship="Self.FK_Task_TaskPriority" FromRole="Task" ToRole="TaskPriority" />
+          <NavigationProperty Name="TaskType1" Relationship="Self.FK_Task_TaskType" FromRole="Task" ToRole="TaskType" />
+          <NavigationProperty Name="TUser" Relationship="Self.FK_Task_TUser" FromRole="Task" ToRole="TUser" />
+          <NavigationProperty Name="TAdmin" Relationship="TaskManagerDbModel.FK_Task_Admin1" FromRole="Task" ToRole="TAdmin" />
+          <Property Name="Tag" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="DDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Comment" Relationship="TaskManagerDbModel.FK_Comment_Task" FromRole="Task" ToRole="Comment" />
+          <NavigationProperty Name="Project" Relationship="TaskManagerDbModel.FK_Task_Project" FromRole="Task" ToRole="Project" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="CompletedDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="TaskPriority">
+          <Key>
+            <PropertyRef Name="PriorityID" />
+          </Key>
+          <Property Name="PriorityName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="PriorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_TaskPriority" FromRole="TaskPriority" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeName" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_TaskType" FromRole="TaskType" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="TUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_TUser" FromRole="TUser" ToRole="Task" />
+          <NavigationProperty Name="Comment" Relationship="TaskManagerDbModel.FK_Comment_TUser" FromRole="TUser" ToRole="Comment" />
+        </EntityType>
+        <Association Name="FK_Task_TaskPriority">
+          <End Role="TaskPriority" Type="Self.TaskPriority" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskPriority">
+              <PropertyRef Name="PriorityID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskType">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TaskType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TUser">
+          <End Role="TUser" Type="Self.TUser" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskManagerDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Task" EntityType="Self.Task" />
+          <EntitySet Name="TaskPriority" EntityType="Self.TaskPriority" />
+          <EntitySet Name="TaskType" EntityType="Self.TaskType" />
+          <EntitySet Name="TUser" EntityType="Self.TUser" />
+          <AssociationSet Name="FK_Task_TaskPriority" Association="Self.FK_Task_TaskPriority">
+            <End Role="TaskPriority" EntitySet="TaskPriority" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskType" Association="Self.FK_Task_TaskType">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TUser" Association="Self.FK_Task_TUser">
+            <End Role="TUser" EntitySet="TUser" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_Login" ReturnType="Collection(TaskManagerDbModel.Sp_Login_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="TAdmin" EntityType="TaskManagerDbModel.TAdmin" />
+          <AssociationSet Name="FK_Task_Admin1" Association="TaskManagerDbModel.FK_Task_Admin1">
+            <End Role="TAdmin" EntitySet="TAdmin" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_AdminLogin" ReturnType="Collection(TaskManagerDbModel.Sp_AdminLogin_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Department" EntityType="TaskManagerDbModel.Department" />
+          <EntitySet Name="Project" EntityType="TaskManagerDbModel.Project" />
+          <AssociationSet Name="FK_Project_TAdmin" Association="TaskManagerDbModel.FK_Project_TAdmin">
+            <End Role="TAdmin" EntitySet="TAdmin" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_ListTask" ReturnType="Collection(TaskManagerDbModel.Sp_ListTask_Result1)" />
+          <FunctionImport Name="Sp_Personnel" ReturnType="Collection(String)" />
+          <EntitySet Name="Comment" EntityType="TaskManagerDbModel.Comment" />
+          <AssociationSet Name="FK_Comment_Task" Association="TaskManagerDbModel.FK_Comment_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_GetTask" ReturnType="Collection(TaskManagerDbModel.Sp_GetTask_Result)">
+          <Parameter Name="userid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_Priority" ReturnType="Collection(String)">
+          <Parameter Name="UserID" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetTaskforManager" ReturnType="Collection(TaskManagerDbModel.Sp_GetTaskforManager_Result5)" />
+          <AssociationSet Name="FK_Task_Project" Association="TaskManagerDbModel.FK_Task_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_TUser" Association="TaskManagerDbModel.FK_Comment_TUser">
+            <End Role="TUser" EntitySet="TUser" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="Sp_Login_Result">
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="TAdmin">
+          <Key>
+            <PropertyRef Name="ManagerID" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="TaskManagerDbModel.FK_Task_Admin1" FromRole="TAdmin" ToRole="Task" />
+          <NavigationProperty Name="Project" Relationship="TaskManagerDbModel.FK_Project_TAdmin" FromRole="TAdmin" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_Task_Admin1">
+          <End Type="TaskManagerDbModel.TAdmin" Role="TAdmin" Multiplicity="1" />
+          <End Type="TaskManagerDbModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAdmin">
+              <PropertyRef Name="ManagerID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_AdminLogin_Result">
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="Guid" Name="ManagerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectKey" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ProjectManager" Type="Guid" Nullable="false" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="TAdmin" Relationship="TaskManagerDbModel.FK_Project_TAdmin" FromRole="Project" ToRole="TAdmin" />
+          <NavigationProperty Name="Task" Relationship="TaskManagerDbModel.FK_Task_Project" FromRole="Project" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_Project_TAdmin">
+          <End Type="TaskManagerDbModel.TAdmin" Role="TAdmin" Multiplicity="1" />
+          <End Type="TaskManagerDbModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAdmin">
+              <PropertyRef Name="ManagerID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ProjectManager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_ListTask_Result">
+          <Property Type="Int32" Name="Score" Nullable="true" />
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_ListTask_Result1">
+          <Property Type="Int32" Name="Score" Nullable="true" />
+          <Property Type="Int32" Name="DDate" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Guid" />
+          <Property Name="CommentContent" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Task" Relationship="TaskManagerDbModel.FK_Comment_Task" FromRole="Comment" ToRole="Task" />
+          <NavigationProperty Name="TUser" Relationship="TaskManagerDbModel.FK_Comment_TUser" FromRole="Comment" ToRole="TUser" />
+          <Property Name="CommentDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Comment_Task">
+          <End Type="TaskManagerDbModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="TaskManagerDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Sp_GetTask_Result">
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result">
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result1">
+          <Property Type="Int32" Name="TaskType" Nullable="false" />
+          <Property Type="DateTime" Name="SDate" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Guid" Name="Manager1" Nullable="false" />
+          <Property Type="DateTime" Name="EDate1" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result2">
+          <Property Type="Int32" Name="TaskType" Nullable="false" />
+          <Property Type="DateTime" Name="SDate" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Guid" Name="Manager1" Nullable="false" />
+          <Property Type="DateTime" Name="EDate1" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result3">
+          <Property Type="Int32" Name="TaskType" Nullable="false" />
+          <Property Type="DateTime" Name="SDate" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="DateTime" Name="EDate1" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result4">
+          <Property Type="Int32" Name="TaskType" Nullable="false" />
+          <Property Type="DateTime" Name="SDate" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result5">
+          <Property Type="Int32" Name="TaskType" Nullable="false" />
+          <Property Type="DateTime" Name="SDate" Nullable="false" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="Guid" Name="Manager" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+        </ComplexType>
+        <Association Name="FK_Task_Project">
+          <End Type="TaskManagerDbModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="TaskManagerDbModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ProjectName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_TUser">
+          <End Type="TaskManagerDbModel.TUser" Role="TUser" Multiplicity="0..1" />
+          <End Type="TaskManagerDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TaskManagerDbModelStoreContainer" CdmEntityContainer="TaskManagerDbEntities">
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="DDate" ColumnName="DDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="SDate" ColumnName="SDate" />
+                <ScalarProperty Name="EDate" ColumnName="EDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskPriority">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.TaskPriority">
+              <MappingFragment StoreEntitySet="TaskPriority">
+                <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+                <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskType">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.TaskType">
+              <MappingFragment StoreEntitySet="TaskType">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUser">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.TUser">
+              <MappingFragment StoreEntitySet="TUser">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Login" FunctionName="TaskManagerDbModel.Store.Sp_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_Login_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TAdmin">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.TAdmin">
+              <MappingFragment StoreEntitySet="TAdmin">
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_AdminLogin" FunctionName="TaskManagerDbModel.Store.Sp_AdminLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_AdminLogin_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectManager" ColumnName="ProjectManager" />
+                <ScalarProperty Name="ProjectKey" ColumnName="ProjectKey" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_ListTask" FunctionName="TaskManagerDbModel.Store.Sp_ListTask">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_ListTask_Result1">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="DDate" ColumnName="DDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Personnel" FunctionName="TaskManagerDbModel.Store.Sp_Personnel" />
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="TaskManagerDbModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_GetTask" FunctionName="TaskManagerDbModel.Store.Sp_GetTask">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTask_Result">
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="EDate" ColumnName="EDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Priority" FunctionName="TaskManagerDbModel.Store.Sp_Priority" />
+          <FunctionImportMapping FunctionImportName="Sp_GetTaskforManager" FunctionName="TaskManagerDbModel.Store.Sp_GetTaskforManager">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTaskforManager_Result5">
+                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
+                <ScalarProperty Name="SDate" ColumnName="SDate" />
+                <ScalarProperty Name="EDate" ColumnName="EDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

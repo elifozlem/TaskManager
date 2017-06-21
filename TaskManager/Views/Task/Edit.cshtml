@@ -1,0 +1,127 @@
+﻿@model TaskManager.Task
+@{
+
+    Layout = "~/Views/Task/PartialEdit.cshtml";
+}
+@using (Html.BeginForm("EditTask", "Task",new {id=ViewBag.TaskID}, FormMethod.Post,null))
+{
+    @Html.AntiForgeryToken()
+<div>
+
+    <dl class="dl-horizontal">
+        
+            <h4 align="center">Talep Detayları</h4>
+  
+       
+     
+   
+        <hr />
+        <dt>
+            @Html.DisplayName("Tip :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskType1.TypeName)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayName("Öncelik :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskPriority.PriorityName)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayName("Bildiren Kişi :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TAdmin.Username)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayName("Etiket :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tag)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayName("Görev Puanı :")
+        </dt>
+
+        <dd>
+           @Html.EditorFor(m => m.Score,  new { htmlAttributes = new { min = 1, max = 5 } })
+        </dd>
+        <hr />
+
+        @if (Model.Status == true)
+        {
+            <dt>
+                @Html.DisplayName("Durum :")
+            </dt>
+
+            <dd>
+                @Html.DisplayName("Açık")
+            </dd>
+            <dt>
+                @Html.DisplayName("Çözüm :")
+            </dt>
+
+            <dd>
+                @Html.DisplayName("Çözülmedi")
+            </dd>
+        }
+        @if (Model.Status == false)
+        {
+            <dt>
+                @Html.DisplayName("Durum :")
+            </dt>
+
+            <dd>
+                @Html.DisplayName("Kapalı")
+            </dd>
+            <dt>
+                @Html.DisplayName("Çözüm :")
+            </dt>
+
+            <dd>
+                @Html.DisplayName("Çözüldü")
+            </dd>
+
+        }
+        <hr />
+        <dt>
+            @Html.DisplayName("Tanım :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Summary)
+        </dd>
+       
+        <hr />
+        <dt>
+            @Html.DisplayName("Eklenen Dosyalar :")
+        </dt>
+        <dd>
+            @Html.DisplayName("")
+        </dd>
+    
+     </dl>
+    @if (Session["Control"].ToString() == "1" && Model.Status == true)
+    {
+        <input type="submit" name="btnvalue" value="Görevi Sonlandır" style="float: right; ">
+    }  
+
+
+</div>
+}    
+@using (Html.BeginForm("Completed", "Task", new { id = ViewBag.UserID, TaskID = ViewBag.TaskID }))
+{
+    if (Session["Control"].ToString() == "0" && Model.Completed == false)
+    {
+        <input type="submit" name="btnvalue" value="Görev Tamamlandı" style="float: right; ">
+    }
+}

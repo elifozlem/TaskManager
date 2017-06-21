@@ -1,0 +1,134 @@
+﻿@model IEnumerable<TaskManager.Task>
+@{
+    ViewBag.Title = "Görevler";
+}
+<head>
+    <style>
+        .navbar-fixed-left {
+            width: 140px;
+            position: fixed;
+            border-radius: 0;
+            height: 10%;
+        }
+
+            .navbar-fixed-left .navbar-nav > li {
+                float: none; /* Cancel default li float: left */
+                width: 170px;
+            }
+
+            .navbar-fixed-left + .container {
+                padding-left: 250px; /*yan barla arasındaki mesafe*/
+            }
+        .table {
+            table-layout: fixed ;
+        }
+
+        .td {
+            width: 50%;
+        }
+    </style>
+  
+    <script src="~/Content/sweetalert-master/dist/sweetalert.min.js"></script>
+    <link href="~/Content/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+   </head>
+@if (TempData["notice"] != null)
+{
+    //<script language='javascript' type='text/javascript'>alert("Yetkisiz Giriş!");</script>
+    <script>
+        swal({
+            title: "",
+            text: "Yetkisiz Giriş!",
+            type: "warning",
+            confirmButtonText: "Tamam"
+        });</script>
+}
+<div class="navbar-fixed-left">
+  
+    <ul class="nav navbar-nav">
+        <img src="@Url.Content("~/Content/pp.jpg")" alt="SimpleChart" height="120" width="120" />
+        <li><a href="#">Görevlerim Hakkında</a></li>
+        @if (ViewBag.Priority != null)
+        {
+         foreach (var task in ((List<string>)ViewBag.Priority))
+        {
+            <li>- @task</li>
+        }
+        }
+        <li><a href="#">Başarılı Personeller</a></li>
+        @if (ViewBag.Personnel!=null)
+        { foreach (var personnel in ((List<string>)ViewBag.Personnel))
+            {
+            <li>- @personnel</li>
+            }
+        }
+    </ul>
+</div>
+    <div class="container">
+        <div class="row">
+          
+            <table class="table">
+
+                <tr>
+                    <th>
+                        @Html.DisplayName("Proje Adı")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Etiket")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Öncelik")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Yönetici")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Son tarih")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Durum")
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tag)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TaskPriority.PriorityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TAdmin.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EDate)
+                        </td>
+                       
+                        <td>
+                            @if (item.Completed == true) {
+                                <img src="~/Content/ok.png" style="height:35px; width:35px;" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/notok.png" style="height:25px; width:25px;" />
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detay", "TaskDetail", new { id = item.TaskID })
+
+                        </td>
+                    </tr>
+
+                }
+
+            </table>
+        </div>
+    </div>
+
+

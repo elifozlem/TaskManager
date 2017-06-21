@@ -1,0 +1,129 @@
+﻿@model TaskManager.Task
+
+@{
+    ViewBag.Title = "Talep Detayları";
+}
+<head>
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .data_table {
+            display: inline-block;
+            overflow: hidden;
+            text-align: left;
+            background: rgba(239, 239, 239, 0.71);
+            padding: 10px;
+            width: 900px;
+        }
+
+            .data_table dt, .data_table dd {
+                margin: 0;
+                margin-bottom: 2px;
+                display: inline;
+            }
+
+            .data_table dt {
+                padding-right: 8px;
+            }
+
+            .data_table dd:after {
+                content: '';
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <div>
+
+        <dl class="data_table">
+            <h4 align="center">Talep Detayları</h4>
+            <hr />
+            <dt>
+                @Html.DisplayName("Tip :")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskType1.TypeName)
+            </dd>
+            <br />
+            <dt>
+                @Html.DisplayName("Öncelik :")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TaskPriority.PriorityName)
+            </dd>
+            <br />
+            <dt>
+                @Html.DisplayName("Bildiren Kişi :")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TAdmin.Username)
+            </dd>
+            <br />
+            <dt>
+                @Html.DisplayName("Etiket :")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tag)
+            </dd>
+            <br />
+            
+
+            @if (Model.Status == true)
+            {
+                <dt>
+                    @Html.DisplayName("Durum :")
+                </dt>
+
+                <dd>
+                    @Html.DisplayName("Açık")
+                </dd>
+                <dt>
+                    @Html.DisplayName("Çözüm :")
+                </dt>
+
+                <dd>
+                    @Html.DisplayName("Çözülmedi")
+                </dd>
+            }
+            @if (Model.Status == false)
+            {
+                <dt>
+                    @Html.DisplayName("Durum :")
+                </dt>
+
+                <dd>
+                    @Html.DisplayName("Kapalı")
+                </dd>
+                <dt>
+                    @Html.DisplayName("Çözüm :")
+                </dt>
+
+                <dd>
+                    @Html.DisplayName("Çözüldü")
+                </dd>
+
+            }
+            <hr />
+            <dt>
+                @Html.DisplayName("Tanım :")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Summary)
+            </dd>
+            <hr />
+          
+            @Html.ActionLink("Çözüm Ekle", "Edit", new { taskid = Model.TaskID })
+
+        </dl>
+    </div>
+
+
+</body>

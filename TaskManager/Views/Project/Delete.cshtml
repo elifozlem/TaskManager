@@ -1,0 +1,47 @@
+﻿@model TaskManager.Project
+
+@{
+    ViewBag.Title = "Proje sil";
+}
+
+
+
+<h3>Bu projeyi silmek istediğinizden emin misiniz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Proje")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Anahtar")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Yönetici")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TAdmin.Username)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-default" /> |
+            @Html.ActionLink("Listeye geri dön", "Index")
+        </div>
+    }
+</div>

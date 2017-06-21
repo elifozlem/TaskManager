@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c6b55474933b452988ff6e412d920b1d" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="TaskManagerDbModel.Task" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.TaskPriority" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.TaskType" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.TUser" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Task_TaskPriority" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Task_TaskType" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Task_TUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.TAdmin" Width="1.5" PointX="5.375" PointY="3.875" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Task_Admin1" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.Department" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.Project" Width="1.5" PointX="7.625" PointY="3.875" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Project_TAdmin" />
+        <EntityTypeShape EntityType="TaskManagerDbModel.Comment" Width="1.5" PointX="5.25" PointY="7.5" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Comment_Task" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Task_Project" />
+        <AssociationConnector Association="TaskManagerDbModel.FK_Comment_TUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

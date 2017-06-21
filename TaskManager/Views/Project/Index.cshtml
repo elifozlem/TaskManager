@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TaskManager.Project>
+@{
+    ViewBag.Title = "Projeler";
+}
+
+    @using (Html.BeginForm("Index", "Project", new { id = ViewBag.ManagerID, name = ViewBag.ManagerName }, FormMethod.Post, null))
+    {
+
+        @*<tr>
+                <th>
+                    <h4>Projeler</h4>
+                </th>
+                <th>
+                    <input type="submit" value="Ara" , style="float: right" } />
+                    @Html.TextBox("Search", "", htmlAttributes: new { @style = "float: right;text-align: left;" })
+                </th>
+            </tr>*@
+        <td colspan="2">
+            <div style="float:left; width:100px">
+                <h4>Projeler</h4>
+            </div>
+
+            <div style="float: right; width:200px">
+                @Html.TextBox("Search")
+
+            </div>
+
+            <div>
+                @Html.ActionLink("Proje Ekle", "Create", new { ManagerId = ViewBag.ManagerID, ManagerName = ViewBag.ManagerName })
+            </div>
+
+        </td>
+
+
+
+    }
+    <table class="table">
+
+        <tr>
+            <th>
+                @Html.DisplayName("Proje")
+            </th>
+            <th>
+                @Html.DisplayName("Anahtar")
+            </th>
+            <th>
+                @Html.DisplayName("Yönetici")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TAdmin.Username)
+                </td>
+
+
+            </tr>
+        }
+
+    </table>
+
+@section Scripts{
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#Search").autocomplete({
+            source: function (request, response) {
+                $.ajax({ /*Ajax methodumuzu oluşturuyoruz*/
+                    url: "@Url.Action("Autocomplete")",/* gelen degeri hangi methodumuza göndereceğimizi belirtiyoruz*/
+                            type: "POST", /* veri gönderme methodumuzu belirtiyoruz */
+                            dataType: "json",
+                            data: { key: request.term },/* text'imizden gelen değeri key degiskeni ile post ediyoruz */
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item.ProjectName, value: item.ProjectName };/*gelen iki sonucu öneri kısmına yazdırıyoruz. value değeri seçildiğinde gözükecek kısımdır*/
+                                }))
+
+                            }
+                        })
+                    },
+                            messages: {
+                                sonuc: "", sonuc: ""
+            },
+                            minLength: 2 // Arama işlemi için girilmesi gereken en az karakter
+                        });
+    })
+    </script>
+
+}
+
+
