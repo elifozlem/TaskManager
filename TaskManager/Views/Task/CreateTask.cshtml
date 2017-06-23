@@ -13,7 +13,7 @@
     <link href="~/Content/jQuery-File-Upload-9.18.0/css/jquery.fileupload.css" rel="stylesheet" />
 </head>
 <h4>Görev Oluştur</h4>
-@using (Html.BeginForm("CreateTask", "Task",new { id=ViewBag.ManagerID}, FormMethod.Post,null))
+@using (Html.BeginForm("CreateTask", "Task",new { id=Session["ID"]}, FormMethod.Post,null))
 {
 
     @Html.AntiForgeryToken()

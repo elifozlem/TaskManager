@@ -72,15 +72,6 @@ namespace TaskManager
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Sp_Personnel");
         }
     
-        public virtual ObjectResult<Sp_GetTask_Result> Sp_GetTask(Nullable<System.Guid> userid)
-        {
-            var useridParameter = userid.HasValue ?
-                new ObjectParameter("userid", userid) :
-                new ObjectParameter("userid", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetTask_Result>("Sp_GetTask", useridParameter);
-        }
-    
         public virtual ObjectResult<string> Sp_Priority(Nullable<System.Guid> userID)
         {
             var userIDParameter = userID.HasValue ?
@@ -90,9 +81,18 @@ namespace TaskManager
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Sp_Priority", userIDParameter);
         }
     
-        public virtual ObjectResult<Sp_GetTaskforManager_Result5> Sp_GetTaskforManager()
+        public virtual ObjectResult<Sp_GetTask_Result> Sp_GetTask(Nullable<System.Guid> userid)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetTaskforManager_Result5>("Sp_GetTaskforManager");
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetTask_Result>("Sp_GetTask", useridParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetTaskforManager_Result> Sp_GetTaskforManager()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetTaskforManager_Result>("Sp_GetTaskforManager");
         }
     }
 }

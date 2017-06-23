@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TaskManager.Sp_GetTaskforManager_Result>
+@{
+    ViewBag.Title = "Görevler";
+    Layout = "~/Views/Task/PartialIndex.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+
+        <table class="table">
+
+            <tr>
+                <th>
+                    @Html.DisplayName("Proje Adı")
+                </th>
+                <th>
+                    @Html.DisplayName("Etiket")
+                </th>
+                <th>
+                    @Html.DisplayName("Öncelik")
+                </th>
+                <th>
+                    @Html.DisplayName("Yönetici")
+                </th>
+                <th>
+                    @Html.DisplayName("Son tarih")
+                </th>
+                <th>
+                    @Html.DisplayName("Durum")
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tag)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PriorityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EDate)
+                    </td>
+
+                    <td>
+                        @if (item.Completed == true)
+                        {
+                            <img src="~/Content/ok.png" style="height:35px; width:35px;" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/notok.png" style="height:25px; width:25px;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detay", "TaskDetail", new { id = item.TaskID })
+
+                    </td>
+                </tr>
+
+            }
+
+        </table>
+    </div>
+</div>

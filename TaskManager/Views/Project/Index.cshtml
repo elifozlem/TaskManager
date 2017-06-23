@@ -3,7 +3,7 @@
     ViewBag.Title = "Projeler";
 }
 
-    @using (Html.BeginForm("Index", "Project", new { id = ViewBag.ManagerID, name = ViewBag.ManagerName }, FormMethod.Post, null))
+    @using (Html.BeginForm("Index", "Project", new { id = ViewBag.ManagerID }, FormMethod.Post, null))
     {
 
         @*<tr>
@@ -16,18 +16,20 @@
                 </th>
             </tr>*@
         <td colspan="2">
+
+           
+
             <div style="float:left; width:100px">
                 <h4>Projeler</h4>
             </div>
-
+         
             <div style="float: right; width:200px">
-                @Html.TextBox("Search")
+                <input name="Search" id="Search" placeholder="Ara..">
 
             </div>
+       
+         
 
-            <div>
-                @Html.ActionLink("Proje Ekle", "Create", new { ManagerId = ViewBag.ManagerID, ManagerName = ViewBag.ManagerName })
-            </div>
 
         </td>
 

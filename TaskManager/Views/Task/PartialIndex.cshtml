@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<head>
+    <style>
+        .navbar-fixed-left {
+            width: 140px;
+            position: fixed;
+            border-radius: 0;
+            height: 10%;
+        }
+
+            .navbar-fixed-left .navbar-nav > li {
+                float: none; /* Cancel default li float: left */
+                width: 170px;
+            }
+
+            .navbar-fixed-left + .container {
+                padding-left: 250px; /*yan barla arasındaki mesafe*/
+            }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        .td {
+            width: 50%;
+        }
+    </style>
+
+    <script src="~/Content/sweetalert-master/dist/sweetalert.min.js"></script>
+    <link href="~/Content/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+</head>
+@*<body>
+
+    <table style="width:1135px;" border="1">
+        <tr>
+            <td style="width:700px;">
+
+                @RenderBody()
+            </td>
+
+            <td>
+                @Html.Partial("/Views/Task/Comment.cshtml", CommentList)
+            </td>
+        </tr>
+    </table>
+</body>*@
+
+
+
+
+<div class="navbar-fixed-left">
+
+    <ul class="nav navbar-nav">
+        <img src="@Url.Content("~/Content/pp.jpg")" alt="SimpleChart" height="120" width="120" />
+        <li><a href="#">Görevlerim Hakkında</a></li>
+        @if (ViewBag.Priority != null)
+        {
+            foreach (var task in ((List<string>)ViewBag.Priority))
+            {
+                <li>- @task</li>
+            }
+        }
+        <li><a href="#">Başarılı Personeller</a></li>
+        @if (ViewBag.Personnel != null)
+        {
+            foreach (var personnel in ((List<string>)ViewBag.Personnel))
+            {
+                <li>- @personnel</li>
+            }
+        }
+    </ul>
+  
+</div>
+@RenderBody()

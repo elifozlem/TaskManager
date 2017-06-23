@@ -15,9 +15,10 @@ namespace TaskManager
     {
         public string ProjectName { get; set; }
         public string Tag { get; set; }
-        public int Priority { get; set; }
-        public System.Guid Manager { get; set; }
+        public string PriorityName { get; set; }
+        public string Username { get; set; }
         public System.DateTime EDate { get; set; }
-        public bool Status { get; set; }
+        public bool Completed { get; set; }
+        public int TaskID { get; set; }
     }
 }

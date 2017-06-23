@@ -22,9 +22,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
               
-                    <li>@Html.ActionLink("Task Manager", "#")</li> 
+                    <li><a href="#" rel="stylesheet" type="text/css">Task Manager</a></li> 
                     <li>@Html.ActionLink("Raporlar", "Index", "Document")</li>
                     <li>@Html.ActionLink("Projeler", "Index", "Project",new { id = @Session["ID"] },null)</li>
+                    <li>@Html.ActionLink("Proje Oluştur", "Create", "Project", new { ManagerId = @Session["ID"] }, null)</li>
                     <li>@Html.ActionLink("Görevler", "GetTask", "Task",new { userid = @Session["ID"] },null)</li>
                     <li>@Html.ActionLink("Görev Oluştur", "CreateTask", "Task",new { id = @Session["ID"],name = Session["ManagerName"] },null)</li>
                 </ul>

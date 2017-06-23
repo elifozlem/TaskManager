@@ -114,33 +114,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_Priority" FunctionName="TaskManagerDbModel.Store.Sp_Priority" />
     <FunctionImportMapping FunctionImportName="Sp_GetTask" FunctionName="TaskManagerDbModel.Store.Sp_GetTask">
       <ResultMapping>
         <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTask_Result">
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="Tag" ColumnName="Tag" />
-          <ScalarProperty Name="Priority" ColumnName="Priority" />
-          <ScalarProperty Name="Manager" ColumnName="Manager" />
+          <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="EDate" ColumnName="EDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Completed" ColumnName="Completed" />
+          <ScalarProperty Name="TaskID" ColumnName="TaskID" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="Sp_Priority" FunctionName="TaskManagerDbModel.Store.Sp_Priority" />
     <FunctionImportMapping FunctionImportName="Sp_GetTaskforManager" FunctionName="TaskManagerDbModel.Store.Sp_GetTaskforManager">
       <ResultMapping>
-        <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTaskforManager_Result5">
-          <ScalarProperty Name="TaskType" ColumnName="TaskType" />
-          <ScalarProperty Name="SDate" ColumnName="SDate" />
-          <ScalarProperty Name="EDate" ColumnName="EDate" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-          <ScalarProperty Name="Manager" ColumnName="Manager" />
+        <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTaskforManager_Result">
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="Tag" ColumnName="Tag" />
-          <ScalarProperty Name="Priority" ColumnName="Priority" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="EDate" ColumnName="EDate" />
+          <ScalarProperty Name="Completed" ColumnName="Completed" />
+          <ScalarProperty Name="TaskID" ColumnName="TaskID" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

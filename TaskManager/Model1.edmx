@@ -375,13 +375,9 @@
             <End Role="Task" EntitySet="Task" />
             <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
-          <FunctionImport Name="Sp_GetTask" ReturnType="Collection(TaskManagerDbModel.Sp_GetTask_Result)">
-          <Parameter Name="userid" Mode="In" Type="Guid" />
-          </FunctionImport>
           <FunctionImport Name="Sp_Priority" ReturnType="Collection(String)">
           <Parameter Name="UserID" Mode="In" Type="Guid" />
           </FunctionImport>
-          <FunctionImport Name="Sp_GetTaskforManager" ReturnType="Collection(TaskManagerDbModel.Sp_GetTaskforManager_Result5)" />
           <AssociationSet Name="FK_Task_Project" Association="TaskManagerDbModel.FK_Task_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Task" EntitySet="Task" />
@@ -390,6 +386,10 @@
             <End Role="TUser" EntitySet="TUser" />
             <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
+          <FunctionImport Name="Sp_GetTask" ReturnType="Collection(TaskManagerDbModel.Sp_GetTask_Result)">
+            <Parameter Name="userid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetTaskforManager" ReturnType="Collection(TaskManagerDbModel.Sp_GetTaskforManager_Result)" />
         </EntityContainer>
         <ComplexType Name="Sp_Login_Result">
           <Property Type="String" Name="Username" Nullable="false" MaxLength="30" />
@@ -485,88 +485,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="Sp_GetTask_Result">
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result">
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result1">
-          <Property Type="Int32" Name="TaskType" Nullable="false" />
-          <Property Type="DateTime" Name="SDate" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Guid" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="TaskID" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Guid" Name="Manager1" Nullable="false" />
-          <Property Type="DateTime" Name="EDate1" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result2">
-          <Property Type="Int32" Name="TaskType" Nullable="false" />
-          <Property Type="DateTime" Name="SDate" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Guid" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="TaskID" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Guid" Name="Manager1" Nullable="false" />
-          <Property Type="DateTime" Name="EDate1" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result3">
-          <Property Type="Int32" Name="TaskType" Nullable="false" />
-          <Property Type="DateTime" Name="SDate" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Guid" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="TaskID" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="DateTime" Name="EDate1" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result4">
-          <Property Type="Int32" Name="TaskType" Nullable="false" />
-          <Property Type="DateTime" Name="SDate" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Guid" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="TaskID" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Sp_GetTaskforManager_Result5">
-          <Property Type="Int32" Name="TaskType" Nullable="false" />
-          <Property Type="DateTime" Name="SDate" Nullable="false" />
-          <Property Type="DateTime" Name="EDate" Nullable="false" />
-          <Property Type="Guid" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="TaskID" Nullable="false" />
-          <Property Type="Guid" Name="Manager" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Boolean" Name="Status" Nullable="false" />
-          <Property Type="Int32" Name="ProjectID" Nullable="false" />
-        </ComplexType>
         <Association Name="FK_Task_Project">
           <End Type="TaskManagerDbModel.Project" Role="Project" Multiplicity="1" />
           <End Type="TaskManagerDbModel.Task" Role="Task" Multiplicity="*" />
@@ -591,6 +509,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="Sp_GetTask_Result">
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PriorityName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Boolean" Name="Completed" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetTaskforManager_Result">
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Tag" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PriorityName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="EDate" Nullable="false" />
+          <Property Type="Boolean" Name="Completed" Nullable="false" />
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -710,33 +646,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Priority" FunctionName="TaskManagerDbModel.Store.Sp_Priority" />
           <FunctionImportMapping FunctionImportName="Sp_GetTask" FunctionName="TaskManagerDbModel.Store.Sp_GetTask">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTask_Result">
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="Tag" ColumnName="Tag" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="EDate" ColumnName="EDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Sp_Priority" FunctionName="TaskManagerDbModel.Store.Sp_Priority" />
           <FunctionImportMapping FunctionImportName="Sp_GetTaskforManager" FunctionName="TaskManagerDbModel.Store.Sp_GetTaskforManager">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTaskforManager_Result5">
-                <ScalarProperty Name="TaskType" ColumnName="TaskType" />
-                <ScalarProperty Name="SDate" ColumnName="SDate" />
-                <ScalarProperty Name="EDate" ColumnName="EDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-                <ScalarProperty Name="Manager" ColumnName="Manager" />
+              <ComplexTypeMapping TypeName="TaskManagerDbModel.Sp_GetTaskforManager_Result">
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="Tag" ColumnName="Tag" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="EDate" ColumnName="EDate" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

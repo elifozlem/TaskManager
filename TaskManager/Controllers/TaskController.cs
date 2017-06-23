@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-
+using TaskManager.Models;
 
 namespace TaskManager.Controllers
 {
@@ -18,19 +18,20 @@ namespace TaskManager.Controllers
         [Auth.Auth("Admin", "User")]
         public ActionResult GetTask(Guid? userid)
         {
-         
+            List<Sp_GetTask_Result> task = new List<Sp_GetTask_Result>();
             ViewBag.Personnel = db.Sp_Personnel().ToList();
 
             if (userid != null && Session["Control"].ToString() == "0")
             {
                 ViewBag.Priority = db.Sp_Priority(userid).ToList();
-                var utask = db.Task.Include(t => t.TaskPriority).Include(t => t.TaskType1).Include(t => t.TUser).Include(t => t.TAdmin).Include(t => t.Project).Where(t => t.Status == true && t.UserID == userid).OrderByDescending(m => m.CompletedDate);
-                return View(utask.ToList());
+                var utask = db.Sp_GetTask(userid).ToList();
+               
+                return PartialView("~/Views/Task/GetTask.cshtml",utask);
             }
             else
             {
-              var atask = db.Task.Include(t => t.TaskPriority).Include(t => t.TaskType1).Include(t => t.TUser).Include(t => t.TAdmin).Include(t => t.Project).Where(t => t.Status == true).OrderByDescending(m => m.CompletedDate);
-                return View(atask.ToList());
+              var atask = db.Sp_GetTaskforManager().ToList();
+                return PartialView("~/Views/Task/AdminTask.cshtml",atask);
             }
            
         }
@@ -72,7 +73,7 @@ namespace TaskManager.Controllers
         [Auth.Auth("Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateTask([Bind(Include = "ProjectName,TaskType,Summary,Priority,SDate,EDate,UserID,Score,Description,FileUrl,TaskID,Manager")] Task task,Guid id)
+        public ActionResult CreateTask([Bind(Include = "ProjectName,TaskType,Summary,Tag,Priority,SDate,EDate,UserID,Score,Description,FileUrl,TaskID,Manager")] Task task,Guid id)
         {
             if (ModelState.IsValid)
             {

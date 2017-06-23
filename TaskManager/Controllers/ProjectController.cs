@@ -28,33 +28,31 @@ namespace TaskManager.Controllers
         }
   
         //Projelerin tamamını listeler. id ve name admin idsi ve ismidir.
-        public ActionResult Index(Guid? id,string name)
+        public ActionResult Index(Guid? id)
         {
-
             var project = db.Project.Include(p => p.TAdmin);
             ViewBag.ManagerID = id;
-            ViewBag.ManagerName = name;
             return View(project.ToList());
         }
 
        //Post işlemleri için. Arama yapmak için entera basarsa veri tabanında o projeyi aratıp sonucu döner
         [HttpPost]
-        public ActionResult Index(string Search,Guid id,string name)
+        public ActionResult Index(string Search,Guid id)
         {
 
             var sonuc = db.Project.Where(m => m.ProjectName.Contains(Search)).ToList();
             ViewBag.ManagerID = id;
-            ViewBag.ManagerName = name;
             return View(sonuc);
 
 
         }
      
         //proje oluştur get işlemleri
-        public ActionResult Create(Guid ManagerId,string ManagerName)
+        public ActionResult Create(Guid ManagerId)
         {
+            var result = db.TAdmin.Find(ManagerId);
             ViewBag.ManagerId =ManagerId;
-            ViewBag.ManagerName = ManagerName;
+            ViewBag.ManagerName = result.Username;
           
             return View();
         }
